@@ -27,6 +27,7 @@ namespace Academy.Week1.FinoiaLucaSpese.Client
                     "\n[4] Visualizzare l'elenco delle spese di un utente" +
                     "\n[5] Visualizzare il totale delle spese filtrate per categoria nel mese precedente" +
                     "\n[6] Visualizzare le spese registrate ordinate dalla più recente alla meno recente" +
+                    "\n[7] Visualizzare il totale delle spese per ogni categoria nel mese precedente" +
                     "\n[q] Chiudere l'applicazione");
 
                 choice = Console.ReadKey().KeyChar;
@@ -47,10 +48,13 @@ namespace Academy.Week1.FinoiaLucaSpese.Client
                         GetUserExpenses();
                         break;
                     case '5':
-                        TotalExpensesLastMonth();
+                        TotalExpensesCategoryLastMonth();
                         break;
                     case '6':
                         SortedExpenses();
+                        break;
+                    case '7':
+                        TotalExpensesLastMonth();
                         break;
                     case 'q':
                         Console.WriteLine("\nCiao!");
@@ -63,6 +67,14 @@ namespace Academy.Week1.FinoiaLucaSpese.Client
             } while (!(choice == 'q'));
         }
 
+        private static void TotalExpensesLastMonth()
+        {
+            foreach(int id in mainBL.GetCategory().Select(c => c.Id))
+            {
+                CategoryExpensesLastMonth(id);
+            }
+        }
+
         private static void SortedExpenses()
         {
             foreach (Expense expense in mainBL.GetExpensesSorted())
@@ -71,15 +83,20 @@ namespace Academy.Week1.FinoiaLucaSpese.Client
             }
         }
 
-        private static void TotalExpensesLastMonth()
+        private static void TotalExpensesCategoryLastMonth()
         {
-            decimal sum = 0;
-            Console.WriteLine("Inserire ID categoria da controllare");
             int categoryId;
+            Console.WriteLine("Inserire ID categoria da controllare");
             while (!int.TryParse(Console.ReadLine(), out categoryId) || !mainBL.CheckCategoryId(categoryId))
             {
                 Console.WriteLine("id digitato inesistente o non un numero");
             }
+            CategoryExpensesLastMonth(categoryId);
+        }
+
+        private static void CategoryExpensesLastMonth(int categoryId)
+        {
+            decimal sum = 0;
             foreach (Expense expense in mainBL.GetExpensesLastMonth().Where(e=>e.CategoryId==categoryId))
             {
                 sum += expense.Amount;
