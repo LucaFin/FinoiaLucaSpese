@@ -17,5 +17,7 @@ namespace Academy.Week1.FinoiaLucaSpese.Core.Interfaces
         IEnumerable<Expense> GetExpensesLastMonth();
         IEnumerable<Expense> GetUserExpense(int userId);
         IEnumerable<Expense> GetExpensesSorted();
+        IEnumerable<User> GetUser();
+        IEnumerable<Category> GetCategory();
     }
 }

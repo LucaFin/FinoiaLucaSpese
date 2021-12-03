@@ -63,5 +63,15 @@ namespace Academy.Week1.FinoiaLucaSpese.Core.BusinessLayers
         {
             return _expensesRepository.GetExpensesSorted();
         }
+
+        public IEnumerable<User> GetUser()
+        {
+            return _usersRepository.FetchAll();
+        }
+
+        public IEnumerable<Category> GetCategory()
+        {
+            return _categoriesRepository.FetchAll();
+        }
     }
 }

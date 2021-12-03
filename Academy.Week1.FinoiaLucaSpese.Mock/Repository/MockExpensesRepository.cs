@@ -40,6 +40,10 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 
         public IEnumerable<Expense> FetchAll(Func<Expense, bool> filter = null)
         {
+            if(filter == null)
+            {
+                return InMemoryStorages.expenses;
+            }
             return InMemoryStorages.expenses.Where(filter);
         }
 

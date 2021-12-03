@@ -27,6 +27,10 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 
         public IEnumerable<User> FetchAll(Func<User, bool> filter = null)
         {
+            if(filter == null)
+            {
+                return InMemoryStorages.users;
+            }
             return InMemoryStorages.users.Where(filter);
         }
 

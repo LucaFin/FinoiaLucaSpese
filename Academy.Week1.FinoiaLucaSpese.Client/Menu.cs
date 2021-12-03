@@ -130,14 +130,22 @@ namespace Academy.Week1.FinoiaLucaSpese.Client
             {
                 Console.WriteLine("il vaolre inserito non è valido");
             }
-            Console.WriteLine("inserire Id categoria");
+            Console.WriteLine("inserire Id di una delle seguenti categorie");
             int categoryId;
-            while(!int.TryParse(Console.ReadLine(),out categoryId) || !mainBL.CheckCategoryId(categoryId))
+            foreach (Category category in mainBL.GetCategory())
+            {
+                Console.WriteLine(category.ToString());
+            }
+            while (!int.TryParse(Console.ReadLine(),out categoryId) || !mainBL.CheckCategoryId(categoryId))
             {
                 Console.WriteLine("id digitato inesistente o non un numero");
             }
             int userId;
-            Console.WriteLine("inserire Id utente");
+            Console.WriteLine("inserire Id di uno dei seguenti utenti");
+            foreach(User user in mainBL.GetUser())
+            {
+                Console.WriteLine(user.ToString());
+            }
             while (!int.TryParse(Console.ReadLine(), out userId) || !mainBL.CheckUserId(userId))
             {
                 Console.WriteLine("id digitato inesistente o non un numero");
