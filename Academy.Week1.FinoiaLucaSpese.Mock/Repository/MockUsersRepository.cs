@@ -10,9 +10,14 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 {
     public class MockUsersRepository : IUsersRepository
     {
-        public bool Add(User item)
+        public bool Add(User user)
         {
-            throw new NotImplementedException();
+            if (user == null)
+            {
+                return false;
+            }
+            InMemoryStorages.users.Add(user);
+            return true;
         }
 
         public bool CheckUserId(int userId)
@@ -20,9 +25,9 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
             return InMemoryStorages.users.Contains(InMemoryStorages.users.Find(u=>u.Id==userId));
         }
 
-        public bool Delete(User item)
+        public bool Delete(User user)
         {
-            throw new NotImplementedException();
+            return InMemoryStorages.users.Remove(user);
         }
 
         public IEnumerable<User> FetchAll(Func<User, bool> filter = null)
@@ -36,12 +41,17 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 
         public User GetById(int id)
         {
-            throw new NotImplementedException();
+            return InMemoryStorages.users.Where(u => u.Id==id).First();
         }
 
-        public bool Update(User item)
+        public bool Update(User user)
         {
-            throw new NotImplementedException();
+            if (user == null)
+            {
+                return false;
+            }
+            User removed = InMemoryStorages.users.Where(c => c.Id == user.Id).First();
+            return Delete(removed) && Add(user);
         }
     }
 }

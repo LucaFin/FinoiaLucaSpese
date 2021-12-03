@@ -33,9 +33,9 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
             return false;
         }
 
-        public bool Delete(Expense item)
+        public bool Delete(Expense expense)
         {
-            throw new NotImplementedException();
+            return InMemoryStorages.expenses.Remove(expense);
         }
 
         public IEnumerable<Expense> FetchAll(Func<Expense, bool> filter = null)
@@ -49,7 +49,7 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 
         public Expense GetById(int id)
         {
-            throw new NotImplementedException();
+            return InMemoryStorages.expenses.Where(e=>e.Id == id).First();
         }
 
         public IEnumerable<Expense> GetExpensesSorted()
@@ -62,9 +62,14 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
             return InMemoryStorages.expenses.Select(u=>u.Id).Max();
         }
 
-        public bool Update(Expense item)
+        public bool Update(Expense expense)
         {
-            throw new NotImplementedException();
+            if (expense == null)
+            {
+                return false;
+            }
+            Expense removed = InMemoryStorages.expenses.Where(c => c.Id == expense.Id).First();
+            return Delete(removed) && Add(expense);
         }
     }
 }

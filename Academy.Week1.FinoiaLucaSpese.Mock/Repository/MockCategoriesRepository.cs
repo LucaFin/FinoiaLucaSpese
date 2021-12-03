@@ -10,9 +10,14 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 {
     public class MockCategoriesRepository : ICategoriesRepository
     {
-        public bool Add(Category item)
+        public bool Add(Category category)
         {
-            throw new NotImplementedException();
+            if(category == null)
+            {
+                return false;
+            }
+            InMemoryStorages.categories.Add(category);
+            return true;
         }
 
         public bool CheckCategoryId(int categoryId)
@@ -20,9 +25,9 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
             return InMemoryStorages.categories.Contains(InMemoryStorages.categories.Find(c=>c.Id==categoryId));
         }
 
-        public bool Delete(Category item)
+        public bool Delete(Category category)
         {
-            throw new NotImplementedException();
+            return InMemoryStorages.categories.Remove(category);
         }
 
         public IEnumerable<Category> FetchAll(Func<Category, bool> filter = null)
@@ -36,12 +41,18 @@ namespace Academy.Week1.FinoiaLucaSpese.Mock.Repository
 
         public Category GetById(int id)
         {
-            throw new NotImplementedException();
+            return InMemoryStorages.categories.Where(e=>e.Id==id).First();
         }
 
-        public bool Update(Category item)
+        public bool Update(Category category)
         {
-            throw new NotImplementedException();
+            if (category == null)
+            {
+                return false;
+            }
+            Category removed = InMemoryStorages.categories.Where(c=>c.Id==category.Id).First();  
+            return Delete(removed) && Add(category);
+            
         }
     }
 }
